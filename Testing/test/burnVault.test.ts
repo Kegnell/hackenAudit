@@ -54,6 +54,13 @@ describe("burnVault", function () {
 
     })
 
+    it("UNIT: backing withdrawl must emit event with correct arguments", async function(){
+        const [owner,  addr1] = await ethers.getSigners();
+        await amt.transfer(addr1.address,10);
+        await btcb.transfer(burnVault.address, 100);
+        await expect(burnVault.connect(addr1).backingWithdraw(10)).to.emit(burnVault,"burnMade").withArgs(10,10);   
+    })
+
     it("Basic burn and distribution with multiple wallets", async function () {
         const [owner,  addr1, addr2, addr3, addr4, addr5] = await ethers.getSigners();
 
